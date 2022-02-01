@@ -14,6 +14,8 @@ Imports:
     crayon,
     CVglasso,
     dplyr,
+    igraph,
+    jeek,
     JGL,
     magrittr,
     matrixStats,
