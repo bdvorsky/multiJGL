@@ -36,7 +36,7 @@ Xenaprep <- function(cohort = "TCGA", datatypes = c("clinical", "molecular", "mR
 
   #Check if the code can access to xenahub database https://xenabrowser.net/
   if (is.character(getURL("https://xenabrowser.net/"))) {
-    cat("Connecting to the Xenahub database\n")
+    cat("Connecting\n")
   } else {
     cat("Cannot access to the Xenahub database.\n
           Check your internet connection and https://xenabrowser.net/\n")
