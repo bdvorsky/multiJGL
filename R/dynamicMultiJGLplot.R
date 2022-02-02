@@ -18,7 +18,7 @@ dynamicMultiJGLplot <- function(networks,
                                 display.unique = "FALSE",
 
                                 main = NULL,
-                                xlab=NULL,
+                                 xlab=NULL,
 
                                 output.mode = "htmlWidget", ...){
 
