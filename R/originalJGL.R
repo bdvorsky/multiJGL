@@ -8,14 +8,7 @@ JGL <-
     n = rep(0,K)
     for(k in 1:K) {n[k] = dim(Y[[k]])[1]}
 
-    # assign feature names if none exist:
-    if(length(dimnames(Y[[1]])[[2]])==0)
-    {
-      for(k in 1:K)
-      {
-        dimnames(Y[[k]])[[2]]=paste("V",1:p,sep="")
-      }
-    }
+
 
     # mean-normalize Y:
     for(k in 1:K){
