@@ -11,10 +11,7 @@ JGL <-
 
 
     # mean-normalize Y:
-    for(k in 1:K){
-      for(j in 1:p){
-        Y[[k]][,j] = Y[[k]][,j]-mean(Y[[k]][,j])
-      }}
+    Y <- lapply(Y, function(x) scale(x))
 
 
     # set weights:
