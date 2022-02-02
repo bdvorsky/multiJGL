@@ -16,7 +16,8 @@
 #' @examples data <- Xenaprep(cancertype = "LAML")
 NULL
 
-Xenaprep <- function(cohort = "TCGA", datatypes = c("clinical", "molecular", "mRNA"),
+Xenaprep <- function(cohort = "TCGA",
+                      datatypes = c("clinical", "molecular", "mRNA"),
                           cancertype = "LAML"){
 
   XenaHostNames <- NULL

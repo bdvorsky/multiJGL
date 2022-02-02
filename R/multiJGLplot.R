@@ -23,6 +23,8 @@
 NULL
 utils::globalVariables(c("network.type"))
 
+
+
 multiJGLplot <- function(x, obs.class.names = NULL, node.names = NULL,
                          network.type = "both",
                          structures.to.plot = "obs.class",
