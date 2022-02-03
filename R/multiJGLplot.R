@@ -4,7 +4,7 @@
 #' @param x Estimated network structures from the static_LNLJGL function.
 #' @param obs.class.names Observational class names.
 #' @param node.names Network node names.
-#' @param network.type Should linear, nonlinear or combined networks be plotted with options: "linear", "nonlinear" or "both"
+#' @param title.network.type Used to specify network type for titles and labels.
 #' @param structures.to.plot Should obs.class specific structures to be specified.
 #' @param obs.class.legend Optional: Obs class specific legends.
 #' @param obs_class.index  Optional: Used to specify the subnetworks.
@@ -21,12 +21,12 @@
 #'
 #' @examples print("multiJGLplot(x)")
 NULL
-utils::globalVariables(c("network.type"))
+utils::globalVariables(c("title.network.type"))
 
 
 
 multiJGLplot <- function(x, obs.class.names = NULL, node.names = NULL,
-                         network.type = "both",
+                         title.network.type = NULL,
                          structures.to.plot = "obs.class",
                          obs.class.legend = TRUE,
                          obs_class.index = NULL, graphlayout = NULL, lcex = 0.5,   ...)
@@ -47,7 +47,7 @@ multiJGLplot <- function(x, obs.class.names = NULL, node.names = NULL,
   title = .maketitle(
     structures.to.plot = structures.to.plot,
     obs_class.index = obs_class.index,
-    node.names = node.names,  nettype = network.type, obs.class.names = NULL
+    node.names = node.names,  nettype = title.network.type, obs.class.names = NULL
   )
 
   plot(
@@ -107,7 +107,7 @@ returngraph <- function(x, structures.to.plot = "obs.class",
 
 ### helper function to make title (see also jeek R package).
 .maketitle <- function(structures.to.plot = "obs.class", obs_class.index = NULL,
-                       index = NULL,  nettype = network.type, node.names = NULL, obs.class.names = NULL)
+                       index = NULL,  nettype = title.network.type, node.names = NULL, obs.class.names = NULL)
 {
   if (structures.to.plot == "share") {
     return ("shared structures")
