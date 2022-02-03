@@ -125,8 +125,7 @@ Xenaprep <- function(cohort = "TCGA",
                                             !("molecular" %in% datatypes)) ){
 
     #Return a list consisting of merged datasets
-    output_datasets <- create.list(4, c("clinical", "merged_clinic.molecsubtype",
-                                        "merged_clinic.mRNA", "merged_clinic.molecsubtype.mRNA"))
+    output_datasets <- create.list(3, c("clin", "clin.molsubtype", "clin.molsubtype.mRNA"))
 
     output_datasets$clin <- clinical_TCGA
     output_datasets$clin.molsubtype <- merged_clinic.molecsubtype
