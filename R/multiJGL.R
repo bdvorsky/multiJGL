@@ -141,7 +141,37 @@ multiJGL <- function(node.covariates = node.covariates,
 
 
   #The linear and nonlinear networks are stored separately into the same list
-  results <- list(linear_networks = lin_fgl.results,
+  original.JGL.format <- list(linear_networks = lin_fgl.results,
                   nonlinear_networks = nonlin_fgl.results)
+
+
+  #Prepare results for the visualization:
+
+  #Linear:
+  lapply(original.JGL.format$linear_networks$theta, function(x) abs(x)) %>%
+    purrr::set_names(paste("group",
+                           seq(1:length(levels(grouping.factor))), sep = "")) -> linear.networks
+
+  #Nonlinear:
+  lapply(original.JGL.format$nonlinear_networks$theta, function(x) abs(x)) %>%
+    purrr::set_names(paste("group",
+                           seq(1:length(levels(grouping.factor))), sep = "")) -> nonlinear.networks
+
+  #Combined:
+  Map("+",linear.networks,nonlinear.networks) -> combined.networks
+
+
+  #Store networks into separate lists based on the dependency-type
+
+  linear.strs    <- list("Graphs" = linear.networks)
+  nonlinear.strs <- list("Graphs" = nonlinear.networks)
+  combined.strs  <- list("Graphs" = combined.networks)
+
+  output <- list("linear.strs" = linear.strs,
+                 "nonlinear.strs" = nonlinear.strs,
+                 "combined.strs" = combined.strs,
+                 "original.JGL.format" = original.JGL.format)
+
+  return(output)
 
 }
