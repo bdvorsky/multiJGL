@@ -1,9 +1,7 @@
 
 
-#' @title Linear and nonlinear multiclass network estimation with joint regularization over categorical groups
-
+#' title Linear and nonlinear multiclass network estimation with joint regularization over categorical groups
 #' @param node.covariates An nxp dimensional matrix of p covariates measured over n samples.
-#' #Input data is given as a single data matrix, and the creation of observational classes is done automatically by the grouping factor.
 #' @param grouping.factor A grouping factor for creating observational classes.
 #'
 #' @param penalty.lin Specify "fused" or "group" penalty type for the linear JGL algorithm.
@@ -25,14 +23,14 @@
 #' @param ... Additional parameter for the nonlinear JGL.
 #' @import whitening
 #' @import JGL
-#' @import crayon
+#' @importFrom crayon green
+#' @importFrom crayon bold
 #' @importFrom CVglasso CVglasso
 #' @importFrom matrixStats rowDiffs
 #' @importFrom stats cov
 #' @importFrom utils combn
-#' @export
-#'
 #' @examples  print("net <- multiJGL(node.covariates, grouping.factor)")
+#' @export
 
 multiJGL <- function(node.covariates = node.covariates,
                            grouping.factor = grouping.factor,

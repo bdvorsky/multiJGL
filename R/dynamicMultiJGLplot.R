@@ -1,4 +1,5 @@
-#' @Title dynamic plot creation function
+#' Title dynamic plot creation function
+#'
 #' @param networks Estimated dynamic network structure
 #' @param display.networks Whether LINEAR, NONLINEAR or COMBINED networks are considered
 #' @param display.unique Whether all structures or only group specific unique structures are plotted
@@ -8,17 +9,14 @@
 #' @param ... additional arguments for the render.d3movie function used to create animations
 #'
 #' @return Dynamic output, e.g., as htmlWidget
+#' @examples print("dynamicMultiJGLplot(dynamicMultiJGL(x))")
 #' @export
-#' @examples
-NULL
-utils::globalVariables(c(""))
-
 dynamicMultiJGLplot <- function(networks,
                                 display.networks = c("LINEAR"),
                                 display.unique = "FALSE",
 
                                 main = NULL,
-                                 xlab=NULL,
+                                xlab=NULL,
 
                                 output.mode = "htmlWidget", ...){
 
@@ -126,25 +124,24 @@ dynamicMultiJGLplot <- function(networks,
 
     if(display.networks == "LINEAR"){
       tnet<-networkDynamic(network.list=lin_unique_structure_network_list)
-      print(ndtv::render.d3movie(tnet,
+      print(render.d3movie(tnet,
                            main = main,
                            xlab= xlab, displaylabels =TRUE ,
                            output.mode = output.mode, ...))
     }
     if(display.networks == "NONLINEAR"){
       nonlintnet<-networkDynamic(network.list=nonlin_unique_structure_network_list)
-      print(ndtv::render.d3movie(nonlintnet,
+      print(render.d3movie(nonlintnet,
                            main = main,
                            xlab=xlab ,displaylabels =TRUE ,
                            output.mode = output.mode, ...))
     }
     if(display.networks == "COMBINED"){
       combinedtnet<-networkDynamic(network.list=combined_unique_structure_network_list)
-      print(ndtv::render.d3movie(combinedtnet,
+      print(render.d3movie(combinedtnet,
                            main = main,
                            xlab= xlab,displaylabels =TRUE ,
                            output.mode = output.mode, ...))
     }
   }
 }
-

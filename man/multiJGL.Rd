@@ -2,7 +2,7 @@
 % Please edit documentation in R/multiJGL.R
 \name{multiJGL}
 \alias{multiJGL}
-\title{Linear and nonlinear multiclass network estimation with joint regularization over categorical groups}
+\title{title Linear and nonlinear multiclass network estimation with joint regularization over categorical groups}
 \usage{
 multiJGL(
   node.covariates = node.covariates,
@@ -21,8 +21,7 @@ multiJGL(
 )
 }
 \arguments{
-\item{node.covariates}{An nxp dimensional matrix of p covariates measured over n samples.
-#Input data is given as a single data matrix, and the creation of observational classes is done automatically by the grouping factor.}
+\item{node.covariates}{An nxp dimensional matrix of p covariates measured over n samples.}
 
 \item{grouping.factor}{A grouping factor for creating observational classes.}
 
@@ -54,7 +53,7 @@ multiJGL(
 \item{...}{Additional parameter for the nonlinear JGL.}
 }
 \description{
-Linear and nonlinear multiclass network estimation with joint regularization over categorical groups
+title Linear and nonlinear multiclass network estimation with joint regularization over categorical groups
 }
 \examples{
  print("net <- multiJGL(node.covariates, grouping.factor)")

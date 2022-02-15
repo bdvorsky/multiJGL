@@ -1,24 +1,20 @@
-#' @title Omics data downloading and preprocessing function
+#' Title Omics data downloading and preprocessing function
 #' @param cohort Cohort abbreviation from Xenahub.
-#' @param datatypes Datatypes to be downloaded and merged including "clinical" "molecular" "mRNA".
+#' @param type type to be downloaded and merged including "clinical" "molecular" "mRNA".
 #' @param cancertype Specific tumor TCGA abbreviation (e.g., "LAML", "BRCA").
-#' @importFrom magrittr "%>%"
-#' @importFrom dplyr mutate
-#' @importFrom stats setNames
-#' @importFrom UCSCXenaTools XenaFilter
-#' @importFrom UCSCXenaTools XenaGenerate
-#' @importFrom UCSCXenaTools XenaDownload
-#' @importFrom UCSCXenaTools XenaQuery
-#' @importFrom UCSCXenaTools XenaPrepare
-#' @importFrom RCurl getURL
+#' @param merge If multiple values are given for the type argument, should resulting datasets be merged by sampleID.
+#' @import stats
+#' @import UCSCXenaTools
+#' @import RCurl
 #' @import dplyr
-#' @export
 #' @examples data <- Xenaprep(cancertype = "LAML")
-NULL
 
-Xenaprep <- function(cohort = "TCGA",
-                      datatypes = c("clinical", "molecular", "mRNA"),
-                          cancertype = "LAML"){
+#' @export
+Xenaprep  <- function(cohort = "TCGA",
+                      cancertype = "LAML",
+                      type = c("clinical", "molecular", "mRNA"),
+                      merge = TRUE
+                      ){
 
   XenaHostNames <- NULL
   subset_index <- UCSCXenaTools::XenaData$XenaHostNames == "pancanAtlasHub"
@@ -31,7 +27,7 @@ Xenaprep <- function(cohort = "TCGA",
 
    #Prepare the downloaded molecular-subtype data from TCGA PANCAN cohort for R.
   molecsubtype_PANCAN <- XenaPrepare(molecsubtype_PANCAN)
-  if(identical("molecular", datatypes)){
+  if(identical("molecular", type)){
     return(molecsubtype_PANCAN)
   }
 
@@ -49,7 +45,7 @@ Xenaprep <- function(cohort = "TCGA",
     return(list)
   }
   message("Downloading the following datasets:")
-  message(paste(paste(datatypes, sep  = " "), "data from",
+  message(paste(paste(type, sep  = " "), "data from",
                 cancertype, "TCGA cohort // ", sep = " "))
 
   sampleID <- NULL #visible binding fix
@@ -79,9 +75,9 @@ Xenaprep <- function(cohort = "TCGA",
   #Merge clinical and molecular subtype datasets (see "https://xenabrowser.net/").
   clinical_TCGA <- merge(clinical_TCGA, clinical_TCGA2, by = "sampleID")
 
-  if("clinical" %in% datatypes &
-     !("mRNA" %in% datatypes) &
-     !("molecular" %in% datatypes)){
+  if("clinical" %in% type &
+     !("mRNA" %in% type) &
+     !("molecular" %in% type)){
     return(clinical_TCGA)
   }
 
@@ -115,14 +111,14 @@ Xenaprep <- function(cohort = "TCGA",
   merged_clinic.mRNA <- merge(clinical_TCGA, mRNA_data_PANCANnorm, by = "sampleID")
 
 
-  if("clinical" %in% datatypes & !("mRNA" %in% datatypes) &
-     "molecular" %in% datatypes){
+  if("clinical" %in% type & !("mRNA" %in% type) &
+     "molecular" %in% type){
     return(merged_clinic.molecsubtype)
 
-  } else if (("clinical" %in% datatypes & "mRNA" %in% datatypes &
-              "molecular" %in% datatypes) |("clinical" %in% datatypes &
-                                            "mRNA" %in% datatypes &
-                                            !("molecular" %in% datatypes)) ){
+  } else if (("clinical" %in% type & "mRNA" %in% type &
+              "molecular" %in% type) |("clinical" %in% type &
+                                            "mRNA" %in% type &
+                                            !("molecular" %in% type)) ){
 
     #Return a list consisting of merged datasets
     output_datasets <- create.list(3, c("clin", "clin.molsubtype", "clin.molsubtype.mRNA"))
@@ -135,3 +131,4 @@ Xenaprep <- function(cohort = "TCGA",
   return(output_datasets)
 
 }
+

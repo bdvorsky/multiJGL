@@ -4,7 +4,7 @@
 #' @param x Estimated network structures from the static_LNLJGL function.
 #' @param obs.class.names Observational class names.
 #' @param node.names Network node names.
-#' @param title.network.type Used to specify network type for titles and labels.
+#' @param network.type Should linear, nonlinear or combined networks be plotted.
 #' @param structures.to.plot Should obs.class specific structures to be specified.
 #' @param obs.class.legend Optional: Obs class specific legends.
 #' @param obs_class.index  Optional: Used to specify the subnetworks.
@@ -13,41 +13,33 @@
 #' @param ... Additional igraph arguments.
 #'
 #' @return Multiclass network plot.
+#' @import jeek igraph
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
-#' @import jeek
-#' @import igraph
+#' @examples print("multiJGLplot(multiJGLoutput$linear.strs)")
 #' @export
-#'
-#' @examples print("multiJGLplot(x)")
-NULL
-utils::globalVariables(c("title.network.type"))
-
-
-
 multiJGLplot <- function(x, obs.class.names = NULL, node.names = NULL,
-                         title.network.type = NULL,
-                         structures.to.plot = "obs.class",
-                         obs.class.legend = TRUE,
-                         obs_class.index = NULL, graphlayout = NULL, lcex = 0.5,   ...)
+                           network.type = c("linear", "nonlinear", "linear and nonlinear"),
+                           structures.to.plot = "obs.class",
+                           obs.class.legend = TRUE,
+                           obs_class.index = NULL, graphlayout = NULL, lcex = 0.5,   ...)
 {
 
   .env = "environment: namespace:jeek"
   obs_class.index = unique(obs_class.index)
-
+  nettype <- network.type
 
   adjacent.mat = returngraph(x, structures.to.plot = structures.to.plot,
 
                              obs_class.index = obs_class.index
   )
 
-    graphlayout = .makelayout(x,adjacent.mat, graphlayout = graphlayout)
+  graphlayout = .makelayout(x,adjacent.mat, graphlayout = graphlayout)
   ## make title according to user input
-
   title = .maketitle(
     structures.to.plot = structures.to.plot,
     obs_class.index = obs_class.index,
-    node.names = node.names,  nettype = title.network.type, obs.class.names = NULL
+    node.names = node.names,  nettype = network.type, obs.class.names = NULL
   )
 
   plot(
@@ -69,11 +61,11 @@ multiJGLplot <- function(x, obs.class.names = NULL, node.names = NULL,
     if(is.null(obs.class.names)){
       legend("topleft" , legend = c(paste("obs.class", c(
         1:length(x$Graphs)), "specific"), "shared structures"),
-        col = rainbow(length(x$Graphs) + 1), pch = 18,cex = lcex)
+        col = grDevices::rainbow(length(x$Graphs) + 1), pch = 18,cex = lcex)
     } else {
       legend("topleft" , legend = c(obs.class.names, "shared structures"),
              #Modify the legend position by  the lcex function argument
-             col = rainbow(length(x$Graphs) + 1), pch = 18, cex = lcex)
+             col = grDevices::rainbow(length(x$Graphs) + 1), pch = 18, cex = lcex)
     }
   }
 }
@@ -82,12 +74,12 @@ returngraph <- function(x, structures.to.plot = "obs.class",
                         obs_class.index = NULL, index = NULL) {
   adj = .make.adj.matrix(x$Graphs)
   diag(adj) = 0
-  adjacent.mat = graph.adjacency(adj, mode = "upper", weighted = TRUE)
+  adjacent.mat = igraph::graph.adjacency(adj, mode = "upper", weighted = TRUE)
 
   K = length(x$Graphs)
 
   if (!is.null(E(adjacent.mat)$weight)) {
-    E(adjacent.mat)$color = rainbow(K+1)[E(adjacent.mat)$weight]
+    E(adjacent.mat)$color = grDevices::rainbow(K+1)[E(adjacent.mat)$weight]
   }
 
   if (structures.to.plot == "share") {
@@ -107,7 +99,7 @@ returngraph <- function(x, structures.to.plot = "obs.class",
 
 ### helper function to make title (see also jeek R package).
 .maketitle <- function(structures.to.plot = "obs.class", obs_class.index = NULL,
-                       index = NULL,  nettype = title.network.type, node.names = NULL, obs.class.names = NULL)
+                       index = NULL,  nettype = network.type, node.names = NULL, obs.class.names = NULL)
 {
   if (structures.to.plot == "share") {
     return ("shared structures")
@@ -169,8 +161,5 @@ returngraph <- function(x, structures.to.plot = "obs.class",
   }
   return(adj)
 }
-
-
-
 
 

@@ -23,17 +23,13 @@
 
 #' @import whitening
 #' @import JGL
-#' @import crayon
 #' @importFrom CVglasso CVglasso
 #' @importFrom matrixStats rowDiffs
 #' @importFrom stats cov
 #' @importFrom utils combn
 #' @importFrom stats quantile
-#' @export
-#'
 #' @examples  print("net <- dynamic_NLJGL(node.covariates, grouping.factor)")
-
-
+#' @export
 dynamicMultiJGL<- function(node.covariates = node.covariates, response = response,
                            segment.width = 1/2,
                            rate = 1/10,
@@ -65,9 +61,9 @@ dynamicMultiJGL<- function(node.covariates = node.covariates, response = respons
 
   #The whitening procedure to remove linear relationships
   for(i in 1:numb.objects){
-    obs.classes[[i]] <- node.covariates[which(response <= quantile(response, high_seq[i]) & response >= quantile(response, low_seq[i])),]
+    obs.classes[[i]] <- node.covariates[which(response <= stats::quantile(response, high_seq[i]) & response >= quantile(response, low_seq[i])),]
 
-    Ctest <- CVglasso(X = obs.classes[[i]], S = cov(obs.classes[[i]]),
+    Ctest <- CVglasso::CVglasso(X = obs.classes[[i]], S = cov(obs.classes[[i]]),
                       #Apply a small penalty parameter lambda value just to get a non-singular input for the ZCA-cor method.
                       nlam = 10, lam.min.ratio = 0.0,
                       lam = 0.001, diagonal = FALSE, path = FALSE,
