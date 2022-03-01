@@ -19,7 +19,6 @@ data_check <- function(covariates, groups){
              max = apply(covariates, 2, function(x) max(x)),
              skewness = apply(covariates, 2, function(x) skewness(x)),
              exc_kurtosis = apply(covariates, 2, function(x) kurtosis(x))) %>%
-          round(., 3) %>%
     mutate("warning_I" = case_when(
       skewness < -1 ~ "skwns < -1",
       skewness >  1 ~ "skwns > 1",

@@ -1,13 +1,13 @@
-#' Title Omics data downloading and preprocessing function
+#' @title Omics data downloading and preprocessing function
 #' @param cohort Cohort abbreviation from Xenahub.
 #' @param type type to be downloaded and merged including "clinical" "molecular" "mRNA".
 #' @param cancertype Specific tumor TCGA abbreviation (e.g., "LAML", "BRCA").
 #' @param merge If multiple values are given for the type argument, should resulting datasets be merged by sampleID.
-#' @import stats
 #' @import UCSCXenaTools
 #' @import RCurl
 #' @import dplyr
-#' @examples data <- Xenaprep(cancertype = "LAML")
+#' @importFrom stats setNames
+#' @examples print("")
 
 #' @export
 Xenaprep  <- function(cohort = "TCGA",
@@ -16,28 +16,30 @@ Xenaprep  <- function(cohort = "TCGA",
                       merge = TRUE
                       ){
 
+
   XenaHostNames <- NULL
   subset_index <- UCSCXenaTools::XenaData$XenaHostNames == "pancanAtlasHub"
   Xena_host_PANCAN <- XenaGenerate(subset = subset_index) %>%
     XenaFilter(filterDatasets = "TCGASubtype.20170308.tsv") -> dir_molecsubtype_PANCAN
 
-  #Download the molecular subtype dataset TCGASubtype.20170308.tsv
+
+  #Molecular subtype dataset:   TCGASubtype.20170308.tsv
    suppressMessages(XenaQuery(dir_molecsubtype_PANCAN)) %>%
        XenaDownload() -> molecsubtype_PANCAN
 
-   #Prepare the downloaded molecular-subtype data from TCGA PANCAN cohort for R.
-  molecsubtype_PANCAN <- XenaPrepare(molecsubtype_PANCAN)
-  if(identical("molecular", type)){
-    return(molecsubtype_PANCAN)
-  }
+  #Prepare the downloaded molecular-subtype data from TCGA PANCAN cohort for R.
+   molecsubtype_PANCAN <- XenaPrepare(molecsubtype_PANCAN)
+      if(identical("molecular", type)){
+        return(molecsubtype_PANCAN)
+      }
 
-  #Check if the code can access to xenahub database https://xenabrowser.net/
-  if (is.character(getURL("https://xenabrowser.net/"))) {
-    cat("Connecting\n")
-  } else {
-    cat("Cannot access to the Xenahub database.\n
-          Check your internet connection and https://xenabrowser.net/\n")
-  }
+      #Check if the code can access to xenahub database https://xenabrowser.net/
+      if (is.character(getURL("https://xenabrowser.net/"))) {
+        cat("Connecting\n")
+         } else {
+           cat("Cannot access to the Xenahub database.\n
+              Check your internet connection and https://xenabrowser.net/\n")
+      }
 
   create.list <- function(num.of.objects, object.names){
     list <- vector(mode = "list", length = num.of.objects)  %>%
@@ -54,22 +56,23 @@ Xenaprep  <- function(cohort = "TCGA",
   XenaGenerate(subset = XenaHostNames=="tcgaHub") %>%
     XenaFilter(filterDatasets = paste("survival/", cancertype, "_survival.txt",
                                       sep = '', collapse = NULL)) -> df_todo
-  suppressMessages(XenaQuery(df_todo)) %>%
-    XenaDownload() -> xe_download
+     suppressMessages(XenaQuery(df_todo)) %>%
+      XenaDownload() -> xe_download
+
   XenaPrepare(xe_download) %>%
-    select_if(~sum(!is.na(.)) > 0) %>%
-    mutate(sampleID = sample) %>%
-    relocate(sampleID, .before = NULL, .after = NULL) -> clinical_TCGA
+     select_if(~sum(!is.na(.)) > 0) %>%
+          mutate(sampleID = sample) %>%
+          relocate(sampleID, .before = NULL, .after = NULL) -> clinical_TCGA
 
     #Download and prepare the first clinical information file
-    XenaGenerate(subset = XenaHostNames=="tcgaHub") %>%
-    XenaFilter(filterDatasets =  paste("TCGA.", cancertype, ".sampleMap/",
-                                       cancertype, "_clinicalMatrix",
-                                       sep = '', collapse = NULL)) -> df_todo
+  XenaGenerate(subset = XenaHostNames=="tcgaHub") %>%
+  XenaFilter(filterDatasets =  paste("TCGA.", cancertype, ".sampleMap/",
+                                      cancertype, "_clinicalMatrix",
+                                      sep = '', collapse = NULL)) -> df_todo
   XenaQuery(df_todo) %>%
     XenaDownload() -> xe_download
-  XenaPrepare(xe_download) %>%
-    select_if(~sum(!is.na(.)) > 0) -> clinical_TCGA2
+     XenaPrepare(xe_download) %>%
+      select_if(~sum(!is.na(.)) > 0) -> clinical_TCGA2
 
 
   #Merge clinical and molecular subtype datasets (see "https://xenabrowser.net/").
@@ -78,18 +81,21 @@ Xenaprep  <- function(cohort = "TCGA",
   if("clinical" %in% type &
      !("mRNA" %in% type) &
      !("molecular" %in% type)){
-    return(clinical_TCGA)
+      return(clinical_TCGA)
   }
 
-  merged_clinic.molecsubtype <- merge(clinical_TCGA, molecsubtype_PANCAN, by = "sampleID")
+  merged_clinic.molecsubtype <- merge(clinical_TCGA,
+                                      molecsubtype_PANCAN,
+                                      by = "sampleID")
   #Download mean-normalized (per gene) mRNAseq PANCAN data normalized across all TCGA cohorts.
   XenaGenerate(subset = XenaHostNames=="tcgaHub") %>%
     XenaFilter(filterDatasets = paste("TCGA.", cancertype,
-                                      ".sampleMap/HiSeqV2_PANCAN", sep = '', collapse = NULL)) -> query_data_PANCAN
+                                      ".sampleMap/HiSeqV2_PANCAN",
+                                      sep = '', collapse = NULL)) -> query_data_PANCAN
 
   suppressMessages(XenaQuery(query_data_PANCAN)) %>%
     XenaDownload() -> download_data_PANCAN
-  TmRNA_data_PANCANnorm <- XenaPrepare(download_data_PANCAN);
+     TmRNA_data_PANCANnorm <- XenaPrepare(download_data_PANCAN);
 
     #Prepare PANCAN normalized mRNA data for R analysis
   TmRNA_data_PANCANnorm <- as.data.frame(TmRNA_data_PANCANnorm)

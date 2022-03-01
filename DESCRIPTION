@@ -13,11 +13,12 @@ RoxygenNote: 7.1.2
 Imports: 
     crayon,
     CVglasso,
+    igraph,
+    stats,
     dplyr,
     e1071,
     graphics,
     grDevices,
-    igraph,
     jeek,
     JGL,
     magrittr,
@@ -27,6 +28,5 @@ Imports:
     networkDynamic,
     purrr,
     RCurl,
-    stats,
     UCSCXenaTools,
     whitening

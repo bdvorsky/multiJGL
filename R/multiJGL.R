@@ -1,6 +1,6 @@
 
 
-#' title Linear and nonlinear multiclass network estimation with joint regularization over categorical groups
+#' @title Linear and nonlinear multiclass network estimation with joint regularization over categorical groups
 #' @param node.covariates An nxp dimensional matrix of p covariates measured over n samples.
 #' @param grouping.factor A grouping factor for creating observational classes.
 #'
@@ -48,19 +48,19 @@ multiJGL <- function(node.covariates = node.covariates,
   #CRAN repository: https://CRAN.R-project.org/package=JGL
 
   #Check if the input dataset contains missing values
-  if(anyNA(node.covariates)) stop("NAs in node.covariates data not allowed")
+  if(anyNA(node.covariates)) stop("missing values in data (node.covariates)")
 
   #Return a warning message if the number of observations in some group is smaller than 10
-  if(is.element(TRUE, as.vector(table(grouping.factor)) < 10))
+  if(is.element(TRUE, as.vector(table(grouping.factor)) < 20))
     warning("Sample size in one class is smaller than 10")
 
-  if(is.element(TRUE, as.vector(table(grouping.factor)) < 5))
+  if(is.element(TRUE, as.vector(table(grouping.factor)) < 10))
     stop("Sample size in one class is smaller than 5")
 
 
   #Check if the grouping factor contains missing values
   if(anyNA(grouping.factor))
-    stop("NAs in grouping.factor data not allowed")
+    stop("missing values in grouping.factor")
   #Assign the number of observational classes objects
   num.of.classes <- length(unique(grouping.factor))
 
@@ -84,7 +84,7 @@ multiJGL <- function(node.covariates = node.covariates,
 
     S <- Ctest$Sigma
     if(!(is.null(S))) {
-      cat(crayon::green$bold("Done: Inversion of sample covariance matrix\n")) }
+      cat(crayon::green$bold("Inversion of sample covariance matrix completed \n")) }
     #The whitening step is based on the ZCA-cor procedure
     W.ZCAcor = whiteningMatrix(S, method="ZCA-cor")
     #Compute the whitened data matrix
@@ -101,7 +101,7 @@ multiJGL <- function(node.covariates = node.covariates,
     whitened_domain <- t(tripleSums)
     pseudo_obs[[i]] <- scale(sqrt(abs(whitened_domain)))
     if(!(is.null(pseudo_obs[[i]]))) {
-      cat(crayon::green$bold("Done: Pseudo-observations generated succesfully")) }
+      cat(crayon::green$bold("Pseudo-observations generated succesfully")) }
     colnames(pseudo_obs[[i]]) <- colnames(node.covariates) #These are the final pseudo-observations
 
   }
@@ -144,14 +144,19 @@ multiJGL <- function(node.covariates = node.covariates,
 
 
   #Prepare results for the visualization:
-
+diag_zero <- function(mat){
+  diag(mat) <- 0
+  return(mat)
+}
   #Linear:
-  lapply(original.JGL.format$linear_networks$theta, function(x) abs(x)) %>%
+  lapply(original.JGL.format$linear_networks$theta, function(x) abs(diag_zero(x))) %>%
     purrr::set_names(paste("group",
                            seq(1:length(levels(grouping.factor))), sep = "")) -> linear.networks
 
   #Nonlinear:
-  lapply(original.JGL.format$nonlinear_networks$theta, function(x) abs(x)) %>%
+
+
+  lapply(original.JGL.format$nonlinear_networks$theta, function(x) abs(diag_zero(x))) %>%
     purrr::set_names(paste("group",
                            seq(1:length(levels(grouping.factor))), sep = "")) -> nonlinear.networks
 

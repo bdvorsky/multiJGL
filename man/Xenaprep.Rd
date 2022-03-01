@@ -2,7 +2,7 @@
 % Please edit documentation in R/Xenaprep.R
 \name{Xenaprep}
 \alias{Xenaprep}
-\title{Title Omics data downloading and preprocessing function}
+\title{Omics data downloading and preprocessing function}
 \usage{
 Xenaprep(
   cohort = "TCGA",
@@ -21,8 +21,8 @@ Xenaprep(
 \item{merge}{If multiple values are given for the type argument, should resulting datasets be merged by sampleID.}
 }
 \description{
-Title Omics data downloading and preprocessing function
+Omics data downloading and preprocessing function
 }
 \examples{
-data <- Xenaprep(cancertype = "LAML")
+print("")
 }

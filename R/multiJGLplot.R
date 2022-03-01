@@ -1,45 +1,37 @@
 
 #' @title Visualisation function for static multiclass network models
 #'
-#' @param x Estimated network structures from the static_LNLJGL function.
+#' @param x An individual element (e.g. $linear.strs) from the output of multiJGL function.
 #' @param obs.class.names Observational class names.
 #' @param node.names Network node names.
-#' @param network.type Should linear, nonlinear or combined networks be plotted.
-#' @param structures.to.plot Should obs.class specific structures to be specified.
 #' @param obs.class.legend Optional: Obs class specific legends.
-#' @param obs_class.index  Optional: Used to specify the subnetworks.
 #' @param graphlayout igraph argument.
 #' @param lcex the cex argument for legends.
 #' @param ... Additional igraph arguments.
 #'
 #' @return Multiclass network plot.
-#' @import jeek igraph
+#' @import jeek
+#' @importFrom igraph layout_in_circle
+#' @importFrom igraph subgraph.edges
+#' @importFrom igraph E
 #' @importFrom grDevices rainbow
 #' @importFrom graphics legend
+#' @importFrom igraph graph.adjacency
 #' @examples print("multiJGLplot(multiJGLoutput$linear.strs)")
 #' @export
 multiJGLplot <- function(x, obs.class.names = NULL, node.names = NULL,
-                           network.type = c("linear", "nonlinear", "linear and nonlinear"),
-                           structures.to.plot = "obs.class",
-                           obs.class.legend = TRUE,
-                           obs_class.index = NULL, graphlayout = NULL, lcex = 0.5,   ...)
+                           obs.class.legend = TRUE, graphlayout = NULL, lcex = 0.5,   ...)
 {
 
   .env = "environment: namespace:jeek"
-  obs_class.index = unique(obs_class.index)
-  nettype <- network.type
+  obs_class.index = NULL
 
-  adjacent.mat = returngraph(x, structures.to.plot = structures.to.plot,
-
-                             obs_class.index = obs_class.index
-  )
+  adjacent.mat = returngraph(x)
 
   graphlayout = .makelayout(x,adjacent.mat, graphlayout = graphlayout)
   ## make title according to user input
   title = .maketitle(
-    structures.to.plot = structures.to.plot,
-    obs_class.index = obs_class.index,
-    node.names = node.names,  nettype = network.type, obs.class.names = NULL
+    node.names = node.names, obs.class.names = NULL
   )
 
   plot(
@@ -78,18 +70,18 @@ returngraph <- function(x, structures.to.plot = "obs.class",
 
   K = length(x$Graphs)
 
-  if (!is.null(E(adjacent.mat)$weight)) {
-    E(adjacent.mat)$color = grDevices::rainbow(K+1)[E(adjacent.mat)$weight]
+  if (!is.null(igraph::E(adjacent.mat)$weight)) {
+    igraph::E(adjacent.mat)$color = grDevices::rainbow(K+1)[igraph::E(adjacent.mat)$weight]
   }
 
   if (structures.to.plot == "share") {
-    adjacent.mat = subgraph.edges(adjacent.mat, which(E(adjacent.mat)$weight == K + 1), delete.vertices = FALSE)
+    adjacent.mat = subgraph.edges(adjacent.mat, which(igraph::E(adjacent.mat)$weight == K + 1), delete.vertices = FALSE)
   } else if (structures.to.plot == "obs.class") {
     if (!is.null(obs_class.index)) {
       if (!prod(obs_class.index %in% (0:K))) {
         stop("please specify valid obs.class number(s)")
       }
-      adjacent.mat = subgraph.edges(adjacent.mat, which(E(adjacent.mat)$weight %in% c(obs_class.index, K + 1)), delete.vertices = FALSE)
+      adjacent.mat = subgraph.edges(adjacent.mat, which(igraph::E(adjacent.mat)$weight %in% c(obs_class.index, K + 1)), delete.vertices = FALSE)
     }
   }
 
@@ -99,7 +91,7 @@ returngraph <- function(x, structures.to.plot = "obs.class",
 
 ### helper function to make title (see also jeek R package).
 .maketitle <- function(structures.to.plot = "obs.class", obs_class.index = NULL,
-                       index = NULL,  nettype = network.type, node.names = NULL, obs.class.names = NULL)
+                       index = NULL, node.names = NULL, obs.class.names = NULL)
 {
   if (structures.to.plot == "share") {
     return ("shared structures")
@@ -112,7 +104,7 @@ returngraph <- function(x, structures.to.plot = "obs.class",
 
   if (structures.to.plot == "obs.class") {
     if (is.null(obs_class.index)) {
-      return (paste("Estimated", nettype, "network structures", sep = " "))
+      return (paste("Estimated", "network structures", sep = " "))
     }
     else {
       if (length(obs_class.index) == 1) {

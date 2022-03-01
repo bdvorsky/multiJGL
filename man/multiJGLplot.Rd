@@ -8,29 +8,20 @@ multiJGLplot(
   x,
   obs.class.names = NULL,
   node.names = NULL,
-  network.type = c("linear", "nonlinear", "linear and nonlinear"),
-  structures.to.plot = "obs.class",
   obs.class.legend = TRUE,
-  obs_class.index = NULL,
   graphlayout = NULL,
   lcex = 0.5,
   ...
 )
 }
 \arguments{
-\item{x}{Estimated network structures from the static_LNLJGL function.}
+\item{x}{An individual element (e.g. $linear.strs) from the output of multiJGL function.}
 
 \item{obs.class.names}{Observational class names.}
 
 \item{node.names}{Network node names.}
 
-\item{network.type}{Should linear, nonlinear or combined networks be plotted.}
-
-\item{structures.to.plot}{Should obs.class specific structures to be specified.}
-
 \item{obs.class.legend}{Optional: Obs class specific legends.}
-
-\item{obs_class.index}{Optional: Used to specify the subnetworks.}
 
 \item{graphlayout}{igraph argument.}
 

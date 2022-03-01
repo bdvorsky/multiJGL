@@ -7,7 +7,9 @@
 #' @param xlab xlab for the animation
 #' @param output.mode output mode
 #' @param ... additional arguments for the render.d3movie function used to create animations
-#'
+#' @importFrom network as.network
+#' @importFrom networkDynamic networkDynamic
+#' @importFrom ndtv render.d3movie
 #' @return Dynamic output, e.g., as htmlWidget
 #' @examples print("dynamicMultiJGLplot(dynamicMultiJGL(x))")
 #' @export
