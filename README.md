@@ -80,6 +80,6 @@ networks <- multiJGL(node.covariates = genes,
 ```
 
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation]()_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
