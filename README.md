@@ -12,15 +12,6 @@ library(devtools)
 devtools::install_github("KontioJuho/multiJGL")
 ``` 
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-To get the unreviewed developmental version of multiJGL:
-
-```r
-devtools::install_github("KontioJuho/MultiJGL")
-```
-
 
 <!-- USAGE EXAMPLES -->
 ## Acute myeloid leukemia example: 
