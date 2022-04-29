@@ -1,16 +1,16 @@
 
-MultiJGL project is about developing a general framework for the inference of dynamical multi-dependency (linear and nonlinear) networks across space and time. 
-The current implementation enables to use either 1) discrete and unordered, as well as 2) continuous and ordered spatio-temproal configurations. For example, 
-a typical usage in biomedical applications could be:
+MultiJGL project is about developing a general framework for the inference of multi-dependency (linear and nonlinear) networks across multiple sample groups. 
 
 
 
 
 <!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+## Install the package
+To install the developer version (status: unreviewed) from github:
+```r
+library(devtools)
+devtools::install_github("KontioJuho/multiJGL")
+``` 
 
 ### Prerequisites
 
@@ -20,24 +20,6 @@ To get the unreviewed developmental version of multiJGL:
 ```r
 devtools::install_github("KontioJuho/MultiJGL")
 ```
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
