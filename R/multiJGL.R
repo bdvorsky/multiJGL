@@ -33,16 +33,16 @@
 #' @export
 
 multiJGL <- function(node.covariates = node.covariates,
-                           grouping.factor = grouping.factor,
-                           penalty.lin = "fused",
-                           penalty.nonlin = "fused",
-                           lin_lambda1 = 0.1, lin_lambda2 = 0.025,
-                           nonlin_lambda1 = 0.1,nonlin_lambda2 = 0.025,
-                           tol.linear = 1e-05,
-                           tol.nonlinear = 1e-05,
-                           subsample.pseudo_obs = FALSE,
-                           omit.rate = 2L,
-                           ...){
+                     grouping.factor = grouping.factor,
+                     penalty.lin = "fused",
+                     penalty.nonlin = "fused",
+                     lin_lambda1 = 0.1, lin_lambda2 = 0.025,
+                     nonlin_lambda1 = 0.1,nonlin_lambda2 = 0.025,
+                     tol.linear = 1e-05,
+                     tol.nonlinear = 1e-05,
+                     subsample.pseudo_obs = FALSE,
+                     omit.rate = 2L,
+                     ...){
 
   #This algorithm is built upon the linear JGL R ´
   #CRAN repository: https://CRAN.R-project.org/package=JGL
@@ -140,25 +140,21 @@ multiJGL <- function(node.covariates = node.covariates,
 
   #The linear and nonlinear networks are stored separately into the same list
   original.JGL.format <- list(linear_networks = lin_fgl.results,
-                  nonlinear_networks = nonlin_fgl.results)
+                              nonlinear_networks = nonlin_fgl.results)
 
 
   #Prepare results for the visualization:
-diag_zero <- function(mat){
-  diag(mat) <- 0
-  return(mat)
-}
+  diag_zero <- function(mat){
+    diag(mat) <- 0
+    return(mat)
+  }
   #Linear:
-  lapply(original.JGL.format$linear_networks$theta, function(x) abs(diag_zero(x))) %>%
-    purrr::set_names(paste("group",
-                           seq(1:length(levels(grouping.factor))), sep = "")) -> linear.networks
+  lapply(original.JGL.format$linear_networks$theta, function(x) abs(diag_zero(x))) -> linear.networks
 
   #Nonlinear:
 
 
-  lapply(original.JGL.format$nonlinear_networks$theta, function(x) abs(diag_zero(x))) %>%
-    purrr::set_names(paste("group",
-                           seq(1:length(levels(grouping.factor))), sep = "")) -> nonlinear.networks
+  lapply(original.JGL.format$nonlinear_networks$theta, function(x) abs(diag_zero(x)))  -> nonlinear.networks
 
   #Combined:
   Map("+",linear.networks,nonlinear.networks) -> combined.networks
@@ -166,10 +162,10 @@ diag_zero <- function(mat){
 
   #Store networks into separate lists based on the dependency-type
 
-  linear.strs    <- list("Graphs" = linear.networks)
-  nonlinear.strs <- list("Graphs" = nonlinear.networks)
-  combined.strs  <- list("Graphs" = combined.networks)
-
+  linear.strs    <- linear.networks
+  nonlinear.strs <- nonlinear.networks
+  combined.strs  <- combined.networks
+names(linear.strs) <- names(nonlinear.strs) <- names(combined.strs) <- levels(as.factor(grouping.factor))
   output <- list("linear.strs" = linear.strs,
                  "nonlinear.strs" = nonlinear.strs,
                  "combined.strs" = combined.strs,
