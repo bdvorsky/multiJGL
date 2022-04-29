@@ -64,7 +64,7 @@ apply(genes, 2, function(x) multiJGL::skewness(x)) %>%
   filter(. < -1) %>%
   rownames( )  -> skew.genes
 #Transformation
-genes[,skew.genes] <- log10(max(genes[,skew.genes]+1) - genes[,skew.genes])
+genes[,skew.genes] <- scale(log10(max(genes[,skew.genes]+1) - genes[,skew.genes]))
 
 #Recheck
 multiJGL::data_check(genes)
