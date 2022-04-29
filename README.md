@@ -1,8 +1,43 @@
 
+MultiJGL project is about developing a general framework for the inference of dynamical multi-dependency (linear and nonlinear) networks across space and time. 
+The current implementation enables to use either 1) discrete and unordered, as well as 2) continuous and ordered spatio-temproal configurations. For example, 
+a typical usage in biomedical applications could be:
+
+
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+To get the unreviewed developmental version of multiJGL:
+
+```r
+devtools::install_github("KontioJuho/MultiJGL")
+```
+### Installation
+
+1. Get a free API Key at [https://example.com](https://example.com)
+2. Clone the repo
+   ```sh
+   git clone https://github.com/github_username/repo_name.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Enter your API in `config.js`
+   ```js
+   const API_KEY = 'ENTER YOUR API';
+   ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 
 <!-- USAGE EXAMPLES -->
@@ -38,26 +73,28 @@ laml.clin = system.file('extdata', 'tcga_laml_annot.tsv', package = 'maftools')
 #Query the names of 15 most frequently mutated genes in AML
 read.maf(maf = laml.maf, clinicalData = laml.clin) %>% 
   somaticInteractions(maf = , top = 15) -> som_int 
-   
+
 AMLtcga %>%
- select(som_int$gene1) %>%
-  scale(, center = TRUE, scale = TRUE) -> genes
+  dplyr::select(.,som_int$gene1) %>%
+  scale(., center = TRUE, scale = TRUE) -> genes
 
 ```
 
 ```r
 #It seems that five covariates are left-skewed
- multiJGL::anomaly_check(genes)
+multiJGL::data_check(genes)
 
+library(e1071)
 #It seems that five covariates are left-skewed
- apply(genes, 2, function(x) skewness(x)) %>% 
-   filter(skewness < -1) %>%
-    rownames( )  -> skew.genes
- #Transformation
-  genes[,skew.genes] <- log10(max(genes[,skew.genes]+1) - genes[,skew.genes])
-  
-  #Recheck
-  anomaly_check(genes)
+apply(genes, 2, function(x) multiJGL::skewness(x)) %>% 
+  as.data.frame() %>% 
+  filter(. < -1) %>%
+  rownames( )  -> skew.genes
+#Transformation
+genes[,skew.genes] <- log10(max(genes[,skew.genes]+1) - genes[,skew.genes])
+
+#Recheck
+multiJGL::data_check(genes)
 
   
 ```
