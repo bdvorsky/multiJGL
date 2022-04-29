@@ -11,24 +11,30 @@
 #' @importFrom e1071 skewness
 #' @export
 
-data_check <- function(covariates, groups){
+data_check <- function(covariates){
+
+
+
 
   message("Information about the variable-specific empiricical distributions:")
 
- return(data.frame(min = apply(covariates, 2, function(x) min(x)),
+ return(data.frame(variance = apply(covariates, 2, function(x) var(x)),
+             min = apply(covariates, 2, function(x) min(x)),
              max = apply(covariates, 2, function(x) max(x)),
              skewness = apply(covariates, 2, function(x) skewness(x)),
              exc_kurtosis = apply(covariates, 2, function(x) kurtosis(x))) %>%
-    mutate("warning_I" = case_when(
+          mutate("warning_I" = case_when(
+            variance ==  0 ~ "zero var",
+            TRUE ~ "-")) %>%
+    mutate("warning_II" = case_when(
       skewness < -1 ~ "skwns < -1",
       skewness >  1 ~ "skwns > 1",
       TRUE ~ "-")) %>%
-      mutate("warning_II" = case_when(
+      mutate("warning_III" = case_when(
         exc_kurtosis <  -1 ~ "krts < -1",
         exc_kurtosis >  5 ~ "krts > 5",
         TRUE ~ "-")))
 
-  return(table(groups))
 
 
 }
