@@ -33,8 +33,8 @@ Xenadata$clin.molsubtype.mRNA %>%
 AMLgroups <- AMLtcga$cytgenrisk
 
 ```
-Identify the most frequently mutated genes in AML samples, e.g., by using _maftools_ R package
-Extract the expression levels (mRNA) of these genes from the downloaded AML dataset 
+Identify the most frequently mutated genes in AML samples, e.g., by using _maftools_ R package, and
+extract the expression levels (mRNA) of these genes from the downloaded AML dataset: 
 ```r
 
 library(maftools)
