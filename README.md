@@ -71,7 +71,7 @@ multiJGL::data_check(genes)
 
   
 ```
-
+Estimate both linear and nonlinear network structures with _multiJGL_ function (with the default parameter values):
 ```r
 networks <- multiJGL(node.covariates = genes,
                            grouping.factor = AMLgroups,
