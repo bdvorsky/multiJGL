@@ -52,7 +52,7 @@ AMLtcga %>%
   scale(., center = TRUE, scale = TRUE) -> genes
 
 ```
-
+Validate the normality assumption with a built-in _data_check_ function:
 ```r
 #It seems that five covariates are left-skewed
 multiJGL::data_check(genes)
