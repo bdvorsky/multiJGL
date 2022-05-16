@@ -60,7 +60,7 @@ multiJGL::data_check(genes)
 
 library(e1071)
 #It seems that five covariates are left-skewed
-apply(genes, 2, function(x) multiJGL::skewness(x)) %>% 
+apply(genes, 2, function(x) skewness(x)) %>% 
   as.data.frame() %>% 
   filter(. < -1) %>%
   rownames( )  -> skew.genes
