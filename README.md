@@ -24,6 +24,7 @@ cytogenetic risk classification (adverse, intermerdiate, favorable).
 
 ```r
 
+library('multiJGL')
 Xenadata <- multiJGL::Xenaprep("LAML")
 
 Xenadata$clin.molsubtype.mRNA %>% 
