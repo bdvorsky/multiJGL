@@ -1,4 +1,4 @@
-# MultiJGL <img src="man/logo/multijgl.png" align="right" height = 120/>
+# MultiJGL <img src="man/logo/multijgl.png" align="right" height = 180/>
 
 
 
