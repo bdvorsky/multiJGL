@@ -1,9 +1,16 @@
 # MultiJGL <img src="man/logo/multijgl.png" align="right" height = 150/>
 
+## Overview
 
 MultiJGL project is about developing a general framework for the inference of multi-dependency (linear and nonlinear) networks across multiple sample groups. The current implementation introduces a nonlinear extension of the popular joint graphical lasso (JGL) enabling the identifcation of both linear and nonlinear dependencies between nodes in a hierarchical manner. 
 
+#### Output/Result: 
 
+Description of input data and description of algorithm + output according to the picture bellow:
+
+Here comes your overview picture:
+
+<img src="example/new-figure-10-1024x576.png"  height = 300/>
 
 
 <!-- GETTING STARTED -->
@@ -16,11 +23,13 @@ devtools::install_github("KontioJuho/multiJGL")
 
 ## Cheat sheet
 Is it viable here?
+
 <a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
 <!-- USAGE EXAMPLES -->
-
 ## Usage: 
+
+MultiJGL creates lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
 
 Please follow these documented use cases for multiJGL for undestanding how to use this package:
 
