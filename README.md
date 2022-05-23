@@ -1,3 +1,5 @@
+# devtools <img src="man/logo/multijgl.png" align="right" height = 150/>
+
 
 MultiJGL project is about developing a general framework for the inference of multi-dependency (linear and nonlinear) networks across multiple sample groups. The current implementation introduces a nonlinear extension of the popular joint graphical lasso (JGL) enabling the identifcation of both linear and nonlinear dependencies between nodes in a hierarchical manner. 
 
@@ -12,9 +14,24 @@ library(devtools)
 devtools::install_github("KontioJuho/multiJGL")
 ``` 
 
+## Cheat sheet
+Is it viable here?
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-import.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
 <!-- USAGE EXAMPLES -->
-## Acute myeloid leukemia example: 
+
+## Usage: 
+
+Please follow these documented use cases for multiJGL for undestanding how to use this package:
+
+- [Use case 1]()
+- [Use case 2]()
+- [Use case 3]()
+
+Or test the basic functionality directly with this example:
+
+
+### Acute myeloid leukemia example: 
 
 **Joint estimation of cytogenetic risk-group specific gene networks** 
 
@@ -82,5 +99,11 @@ networks <- multiJGL(node.covariates = genes,
 
 
 _For more examples, please refer to the [Documentation]()_
+
+
+## Getting help: 
+
+- contact the developer
+- ask question...
 
 <p align="right">(<a href="#top">back to top</a>)</p>
