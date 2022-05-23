@@ -41,10 +41,10 @@ Please follow these documented use cases for multiJGL for undestanding how to us
 - [Use case 2]()
 - [Use case 3]()
 
-Or test the basic functionality directly with this example:
+Or test the basic functionality directly with following example.
 
 
-### Acute myeloid leukemia example: 
+## Acute myeloid leukemia example: 
 
 **Joint estimation of cytogenetic risk-group specific gene networks** 
 
